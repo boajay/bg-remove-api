@@ -156,7 +156,7 @@ const __dirname = path.resolve();
 //   res.send('success');
 
 // });
-app.post('https://bg-remove-api.onrender.com/removebgandcrop', isAuthenticated, upload.single('file'), verifyRequestSignature, (req, res) => {
+app.post('/removebgandcrop', isAuthenticated, upload.single('file'), verifyRequestSignature, (req, res) => {
   
   const imgSource = req.file;
   if (!imgSource) {
