@@ -197,6 +197,6 @@ app.post('/removebgandcrop', isAuthenticated, upload.single('file'), verifyReque
   });
 });
 
-app.listen(8000, () => {
-  console.log('Server listening on port 8000');
+app.listen(3001, () => {
+  console.log('Server listening on port 3001');
 });
