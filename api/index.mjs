@@ -22,7 +22,7 @@ app.use(compression());
 app.use(bodyParser.urlencoded({ limit: '5000mb', extended: true }));
 app.use(bodyParser.json({ limit: '5000mb' }));
 app.use(express.json());
-app.use(cors());
+app.use(cors({origin: '*'}));
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100 // limit each IP to 100 requests per windowMs
