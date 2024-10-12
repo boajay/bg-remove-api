@@ -15,7 +15,8 @@ import { auth } from '../firebase.js';  // Update this line
 dotenv.config();
 
 const app = express();
-// app.set('trust proxy', '192.168.1.1, 10.0.0.0/8');
+app.enable('trust proxy');
+app.set('trust proxy', '192.168.1.1, 10.0.0.0/8');
 app.use(helmet());
 app.use(compression());
 app.use(bodyParser.urlencoded({ limit: '5000mb', extended: true }));
@@ -196,7 +197,7 @@ app.post('/removebgandcrop', isAuthenticated, upload.single('file'), verifyReque
   });
 });
 
-app.listen(8000, () => {
-  console.log('Server listening on port 8000');
+app.listen(80, () => {
+  console.log('Server listening on port 80');
 });
 export default app;
