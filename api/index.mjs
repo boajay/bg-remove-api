@@ -1,5 +1,7 @@
 import bodyParser from 'body-parser';
 import express from 'express';
+import autocrop from 'autocrop-js';
+import { removeBackground } from '@imgly/background-removal-node';
 import fs from 'fs/promises';
 import cors from 'cors';
 import multer from 'multer';
