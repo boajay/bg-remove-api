@@ -162,7 +162,8 @@ app.post('/removebgandcrop', async function(req,res){
   if (!imgSource) {
         return res.status(400).json({ error: 'Missing image source' });
   }
-const dataUrlToBuffer = (dataUrl) => {
+try{
+  const dataUrlToBuffer = (dataUrl) => {
   const base64String = dataUrl.split(',')[1];
   return Buffer.from(base64String, 'base64');
 };
@@ -177,6 +178,9 @@ const dataUrlToBuffer = (dataUrl) => {
           'Content-Disposition': `attachment; filename=${imgSource.originalname}`
         });
         res.send(Buffer.from(result, 'base64'));
+      } catch (error) {
+        res.send(error.message)
+      }
  })
 // app.post('/removebgandcrop', isAuthenticated, upload.single('file'), verifyRequestSignature, (req, res) => {
   
