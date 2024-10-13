@@ -173,12 +173,12 @@ try{
   const originalName= imgSource.originalname;
   const processedBuffer = await removeBackground(imgPath);
   const buffer = Buffer.from(await processedBuffer.arrayBuffer());
-  const result = await autocrop(buffer, { alphaThreshold: 10 });
-  const croppedBuffer = dataUrlToBuffer(result.dataURL);
-  res.set({
-          'Content-Type': 'image/png',
-          'Content-Disposition': `attachment; filename=${imgSource.originalname}`
-        });
+  // const result = await autocrop(buffer, { alphaThreshold: 10 });
+  // const croppedBuffer = dataUrlToBuffer(result.dataURL);
+  // res.set({
+  //         'Content-Type': 'image/png',
+  //         'Content-Disposition': `attachment; filename=${imgSource.originalname}`
+  //       });
         // res.send(croppedBuffer);
         res.send("croppedBuffer");
       } catch (error) {
