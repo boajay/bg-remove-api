@@ -156,44 +156,27 @@ const __dirname = path.resolve();
 //   res.send('success');
 
 // });
-app.post('/removebgandcrop', function(req,res){ 
+app.post('/removebgandcrop', async function(req,res){ 
+
   const imgSource = req.file;
   if (!imgSource) {
-    return res.status(400).json({ error: 'Missing image source' });
+        return res.status(400).json({ error: 'Missing image source' });
   }
-
-  const worker = new Worker(path.join(__dirname, './worker.js'), {
-    workerData: {
-      imgPath: imgSource.path,
-      originalName: imgSource.originalname
-    }
-  });
-
-  worker.on('message', (result) => {
-    res.set({
-      'Content-Type': 'image/png',
-      'Content-Disposition': `attachment; filename=${imgSource.originalname}`
-    });
-    res.send(Buffer.from(result, 'base64'));
-  });
-
-  worker.on('error', (error) => {
-    res.status(500).json({ error: error.message });
-  });
-
-  worker.on('exit', async (code) => {
-    if (code !== 0) {
-      res.status(500).json({ error: `Worker stopped with exit code ${code}` });
-    }
-    // Delete temporary file
-    if (imgSource && imgSource.path) {
-      try {
-        await fs.unlink(imgSource.path);
-      } catch (err) {
-        console.error(`Error deleting file: ${imgSource.path}`, err);
-      }
-    }
-  });
+const dataUrlToBuffer = (dataUrl) => {
+  const base64String = dataUrl.split(',')[1];
+  return Buffer.from(base64String, 'base64');
+};
+  const imgPath=imgSource.path;
+  const originalName= imgSource.originalname;
+  const processedBuffer = await removeBackground(imgPath);
+  const buffer = Buffer.from(await processedBuffer.arrayBuffer());
+  const result = await autocrop(buffer, { alphaThreshold: 10 });
+  const croppedBuffer = dataUrlToBuffer(result.dataURL);
+  res.set({
+          'Content-Type': 'image/png',
+          'Content-Disposition': `attachment; filename=${imgSource.originalname}`
+        });
+        res.send(Buffer.from(result, 'base64'));
  })
 // app.post('/removebgandcrop', isAuthenticated, upload.single('file'), verifyRequestSignature, (req, res) => {
   
