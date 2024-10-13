@@ -156,7 +156,7 @@ const __dirname = path.resolve();
 //   res.send('success');
 
 // });
-app.post('/removebgandcrop', async function(req,res){ 
+app.post('/removebgandcrop', upload.single('file'),async function(req,res){ 
 
   const imgSource = req.file;
   if (!imgSource) {
