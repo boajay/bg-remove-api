@@ -179,7 +179,7 @@ try{
           'Content-Type': 'image/png',
           'Content-Disposition': `attachment; filename=${imgSource.originalname}`
         });
-        res.send(Buffer.from(result, 'base64'));
+        res.send(croppedBuffer);
       } catch (error) {
         res.send(error.message)
       }
